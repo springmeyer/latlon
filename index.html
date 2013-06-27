@@ -85,13 +85,14 @@ function timezoneLoaded(obj) {
 function timeLoaded(obj) {
     if (obj.datetime) {
         document.getElementById('datetime').innerHTML = obj.datetime;
-        document.getElementById('datetimep').style.display = 'block';        
+        document.getElementById('datetimep').style.display = 'block';
     }
 }
 
 function updateLatLonFields(lat, lon) {
     document.getElementById("latlon").innerHTML = lat + ', ' + lon;
     document.getElementById("wkt").innerHTML = 'POINT('+lon+' '+lat +')';
+    document.getElementById("geojson").innerHTML = '{ "type": "Point", "coordinates": [' + [lon, lat] + '] }';
 }
 
 function showMap() {
@@ -100,13 +101,10 @@ function showMap() {
     gmap.addControl(new google.maps.MapTypeControl());
     gmap.enableContinuousZoom();
     gmap.enableScrollWheelZoom();
-    
     var timer = null;
-    
     google.maps.Event.addListener(gmap, "move", function() {
         var center = gmap.getCenter();
         updateLatLonFields(center.lat(), center.lng());
-        
         // Wait a second, then figure out the timezone
         if (timer) {
             clearTimeout(timer);
@@ -122,7 +120,6 @@ function showMap() {
                 "&lng=" + center.lng() + "&callback=timezoneLoaded";
             document.getElementsByTagName("head")[0].appendChild(s);
         }, 1500);
-        
     });
     google.maps.Event.addListener(gmap, "zoomend", function(oldZoom, newZoom) {
         document.getElementById("zoom").innerHTML = newZoom;
@@ -137,9 +134,8 @@ function showMap() {
 
     getOsmUrl = function (a,b,c) {
         var url = 'http://tile.openstreetmap.org/' + b + "/" + a.x + "/" + a.y + ".png";
-        return url;  
-       }    
-    
+        return url;
+    }
     var copycol1 = new GCopyrightCollection("");
     var copy1 = new GCopyright(1, new GLatLngBounds(new GLatLng(-90,-180),new GLatLng(90,180)), 0, "openstreetmap.org");
     copycol1.addCopyright(copy1);
@@ -155,9 +151,8 @@ function showMap() {
 
     getHaitiUrl = function (a,b,c) {
         var url = 'http://live.openstreetmap.nl/haiti/' + b + "/" + a.x + "/" + a.y + ".png";
-        return url;  
-       }    
-    
+        return url;
+    }
     var copycol = new GCopyrightCollection("");
     var copy = new GCopyright(1, new GLatLngBounds(new GLatLng(-90,-180),new GLatLng(90,180)), 0, "haiti.openstreetmap.nl");
     copycol.addCopyright(copy);
@@ -169,16 +164,13 @@ function showMap() {
     var haiti_map = new GMapType([haiti], G_SATELLITE_MAP.getProjection(), "OSM Haiti Live", G_SATELLITE_MAP);
     gmap.addMapType(haiti_map);
     //gmap.setMapType(haiti_map);
-    
-    
-    
+
     // Default view of the world
     gmap.setCenter(
         new google.maps.LatLng(18.547324589827422, -72.388916015625), 12
     );
-    
-    
-    /* If we have a best-guess for the user's location based on their IP, 
+
+    /* If we have a best-guess for the user's location based on their IP,
        show a "zoom to my location" link */
     if (google.loader.ClientLocation) {
         var link = document.createElement('a');
@@ -199,11 +191,11 @@ function showMap() {
         var p = form.getElementsByTagName('p')[0];
         p.appendChild(link);
     }
-    
-    
+
+
     // Set up Geocoder
     window.geocoder = new google.maps.ClientGeocoder();
-    
+
     // If query string was provided, geocode it
     var bits = window.location.href.split('?');
     if (bits[1]) {
@@ -211,7 +203,7 @@ function showMap() {
         document.getElementById('geocodeInput').value = location;
         geocode(location);
     }
-    
+
     // Set up the form
     var geocodeForm = document.getElementById('geocodeForm');
     geocodeForm.onsubmit = function() {
@@ -278,6 +270,7 @@ google.setOnLoadCallback(showMap);
         <p><strong>Latitude, Longitude:</strong> <span id="latlon"></span></p>
         <p><strong>WKT:</strong> <span id="wkt"></span></p>
         <p><strong>Google Maps zoom level:</strong> <span id="zoom"></span></p>
+        <p><strong>GeoJSON:</strong> <span id="geojson"></span></p>
         <p id="timezonep" style="display: none"><strong>Timezone:</strong> <span id="timezone"></span></p>
         <p id="datetimep" style="display: none"><strong>Local time:</strong> <span id="datetime"></span></p>
         <p id="builtby">Built by <a href="http://simonwillison.net/2007/Oct/12/latlon/">Simon Willison</a><br>... hacked for haiti by <a href="http://dbsgeo.com">Dane Springmeyer</a></p>
