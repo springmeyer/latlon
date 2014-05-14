@@ -95,7 +95,7 @@ function updateLatLonFields(lat, lon) {
     document.getElementById("latlon").innerHTML = lat + ', ' + lon;
     document.getElementById("wkt").innerHTML = 'POINT('+lon+' '+lat +')';
     document.getElementById("geojson").innerHTML = '{ "type": "Point", "coordinates": [' + [lon, lat] + '] }';
-    document.getElementById("wikipedia").innerHTML = '{{Coord|' + lon + '|' + lat + '|display=title}}';
+    document.getElementById("wikipedia").innerHTML = '{{Coord|' + lat + '|' + lon + '|display=title}}';
 }
 
 function showMap() {
