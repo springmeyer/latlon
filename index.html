@@ -90,6 +90,8 @@ function timeLoaded(obj) {
 }
 
 function updateLatLonFields(lat, lon) {
+    lat = lat.toFixed(5);
+    lon = lon.toFixed(5);
     document.getElementById("latlon").innerHTML = lat + ', ' + lon;
     document.getElementById("wkt").innerHTML = 'POINT('+lon+' '+lat +')';
     document.getElementById("geojson").innerHTML = '{ "type": "Point", "coordinates": [' + [lon, lat] + '] }';
