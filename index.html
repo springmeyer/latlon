@@ -93,6 +93,7 @@ function updateLatLonFields(lat, lon) {
     document.getElementById("latlon").innerHTML = lat + ', ' + lon;
     document.getElementById("wkt").innerHTML = 'POINT('+lon+' '+lat +')';
     document.getElementById("geojson").innerHTML = '{ "type": "Point", "coordinates": [' + [lon, lat] + '] }';
+    document.getElementById("wikipedia").innerHTML = '{{Coord|' + lon + '|' + lat + '|display=title}}';
 }
 
 function showMap() {
@@ -271,6 +272,7 @@ google.setOnLoadCallback(showMap);
         <p><strong>WKT:</strong> <span id="wkt"></span></p>
         <p><strong>Google Maps zoom level:</strong> <span id="zoom"></span></p>
         <p><strong>GeoJSON:</strong> <span id="geojson"></span></p>
+        <p><strong>Wikipedia:</strong> <span id="wikipedia"></span></p>
         <p id="timezonep" style="display: none"><strong>Timezone:</strong> <span id="timezone"></span></p>
         <p id="datetimep" style="display: none"><strong>Local time:</strong> <span id="datetime"></span></p>
         <p id="builtby">Built by <a href="http://simonwillison.net/2007/Oct/12/latlon/">Simon Willison</a><br>... hacked for haiti by <a href="http://dbsgeo.com">Dane Springmeyer</a></p>
